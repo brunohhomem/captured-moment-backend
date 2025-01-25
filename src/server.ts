@@ -20,7 +20,7 @@ const start = async () => {
       }
 
       if (!fullName || !email || !password) {
-        reply
+        return reply
           .status(400)
           .send({ error: true, message: 'Todos os campos são requeridos.' })
       }
@@ -32,7 +32,9 @@ const start = async () => {
       })
 
       if (isUser) {
-        reply.status(400).send({ error: true, message: 'Usuário já existe.' })
+        return reply
+          .status(400)
+          .send({ error: true, message: 'Usuário já existe.' })
       }
 
       const hashedPassword = await bcrypt.hash(password, 10)
