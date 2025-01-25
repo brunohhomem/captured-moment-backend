@@ -1,0 +1,22 @@
+
+GET http://localhost:8000/backend
+
+
+###
+POST http://localhost:8000/create-account
+content-type: application/json
+
+{
+
+  "fullName": "Bruno Homem",
+  "email": "brunohhomem@gmail.com",
+  "password": "123456789"
+}
+
+# ###
+# PATCH http://localhost:3001/ingredientes/1
+# content-type: application/json
+
+# {
+#   "isAdicional": true
+# }
