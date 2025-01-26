@@ -10,6 +10,7 @@ const start = async () => {
     reply.status(200).send({ message: 'Backend running' })
   })
 
+  //Criação de Usuário
   app.post(
     '/create-account',
     async (request: FastifyRequest, reply: FastifyReply) => {
@@ -66,6 +67,54 @@ const start = async () => {
       })
     }
   )
+
+  app.post('/login', async (request: FastifyRequest, reply: FastifyReply) => {
+    const { email, password } = request.body as {
+      email: string
+      password: string
+    }
+
+    if (!email || !password) {
+      return reply
+        .status(400)
+        .send({ error: true, message: 'Todos os campos são requeridos.' })
+    }
+
+    const user = await prismaClient.user.findFirst({
+      where: {
+        email: email
+      }
+    })
+
+    if (!user) {
+      return reply
+        .status(400)
+        .send({ error: true, message: 'Usuário não encontrado.' })
+    }
+
+    const isPasswordValid = await bcrypt.compare(password, user.password)
+
+    if (!isPasswordValid) {
+      return reply
+        .status(400)
+        .send({ error: true, message: 'Credenciais inválidas.' })
+    }
+
+    const accessToken = jwt.sign(
+      {
+        userId: user.id
+      },
+      process.env.ACCESS_TOKEN_SECRET!,
+      { expiresIn: '72h' }
+    )
+
+    return {
+      error: true,
+      message: 'Login bem sucedido.',
+      user: { fullName: user.fullName, email: user.email },
+      accessToken
+    }
+  })
 
   app.listen({ port: 8000 }, () => {
     console.log('Server running...')

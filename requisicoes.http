@@ -13,6 +13,16 @@ content-type: application/json
   "password": "123456789"
 }
 
+
+###
+POST http://localhost:8000/login
+content-type: application/json
+
+{
+  "email": "brunohhomem@gmail.com",
+  "password": "123456789"
+}
+
 # ###
 # PATCH http://localhost:3001/ingredientes/1
 # content-type: application/json
