@@ -1,8 +1,8 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify'
-import { CreateUserController } from './controller/CreateUserController'
-import { LoginUserController } from './controller/LoginUserController'
-import { authenticateToken } from './app'
-import { GetUserController } from './controller/GetUserController'
+import { CreateUserController } from './controller/Auth/CreateUserController'
+import { LoginUserController } from './controller/Auth/LoginUserController'
+import { authenticateToken } from './middleware/authenticateToken'
+import { GetUserController } from './controller/Auth/GetUserController'
 
 export function routes(fastify: FastifyInstance) {
   //Criar conta

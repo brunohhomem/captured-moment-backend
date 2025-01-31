@@ -1,15 +1,14 @@
 import { FastifyReply, FastifyRequest } from 'fastify'
-import { CreateUserService } from '../service/CreateUserService'
+import { LoginUserService } from '../../service/Auth/LoginUserService'
 
-class CreateUserController {
+class LoginUserController {
   async handle(request: FastifyRequest, reply: FastifyReply) {
-    const { fullName, email, password } = request.body as {
-      fullName: string
+    const { email, password } = request.body as {
       email: string
       password: string
     }
 
-    if (!fullName || !email || !password) {
+    if (!email || !password) {
       return reply
         .status(400)
         .send({ error: true, message: 'Todos os campos são requeridos.' })
@@ -17,20 +16,16 @@ class CreateUserController {
 
     try {
       //Chamar service
-      const createUserService = new CreateUserService()
+      const loginUserService = new LoginUserService()
 
       //Acessar o método do service
-      const user = await createUserService.execute({
-        fullName,
-        email,
-        password
-      })
+      const login = await loginUserService.execute({ email, password })
 
-      reply.send(user)
+      reply.send(login)
     } catch (error: any) {
       return reply.status(400).send({ erro: true, message: error.message })
     }
   }
 }
 
-export { CreateUserController }
+export { LoginUserController }

@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import prismaClient from '../prisma'
+import prismaClient from '../../prisma'
 
 interface UserProps {
   fullName: string
