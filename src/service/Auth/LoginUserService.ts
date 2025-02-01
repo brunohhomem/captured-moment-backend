@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
 import prismaClient from '../../prisma'
+import { AuthUtils } from '../../utils/AuthUtils'
 
 interface UserProps {
   email: string
@@ -25,13 +25,7 @@ class LoginUserService {
       throw new Error('Credenciais inválidas.')
     }
 
-    const accessToken = jwt.sign(
-      {
-        userId: user.id
-      },
-      process.env.ACCESS_TOKEN_SECRET!,
-      { expiresIn: '72h' }
-    )
+    const accessToken = AuthUtils.generateAccessToken((await user).id)
 
     return {
       error: true,
