@@ -7,25 +7,25 @@ const app = fastify({ logger: true })
 
 app.register(routes)
 
-app.get(
-  '/get-all-moments',
-  { preHandler: authenticateToken },
-  async (request: FastifyRequest, reply: FastifyReply) => {
-    const { user } = request
+// app.get(
+//   '/get-all-moments',
+//   { preHandler: authenticateToken },
+//   async (request: FastifyRequest, reply: FastifyReply) => {
+//     const { user } = request
 
-    if (!user) {
-      throw new Error('User does not exists!')
-    }
+//     if (!user) {
+//       throw new Error('User does not exists!')
+//     }
 
-    const registeredMoments = await prismaClient.registeredMoment.findMany({
-      where: {
-        userId: user.userId
-      },
-      orderBy: { isFavorite: 'desc' }
-    })
+//     const registeredMoments = await prismaClient.registeredMoment.findMany({
+//       where: {
+//         userId: user.userId
+//       },
+//       orderBy: { isFavorite: 'desc' }
+//     })
 
-    return registeredMoments
-  }
-)
+//     return registeredMoments
+//   }
+// )
 
 export default app
